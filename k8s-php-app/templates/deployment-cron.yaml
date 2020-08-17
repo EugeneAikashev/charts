@@ -76,7 +76,12 @@ spec:
           successThreshold: {{ .Values.cron.livenessProbe.successThreshold | default 1 }}
           timeoutSeconds: {{ .Values.cron.livenessProbe.timeoutSeconds | default 3 }}
         resources:
-          {{- toYaml .Values.cron.resources | nindent 10 }}
+          limits:
+            cpu: {{ .Values.cron.resources.limits_cpu | default "100m" }}
+            memory: {{ .Values.cron.resources.limits_memory | default "128Mi" }}
+          requests:
+            cpu: {{ .Values.cron.resources.requests_cpu | default "100m" }}
+            memory: {{ .Values.cron.resources.requests_memory | default "128Mi" }}
         volumeMounts:
         - mountPath: /app/storage/logs/json
           name: logs-app

@@ -89,7 +89,12 @@ spec:
           successThreshold: {{ .Values.web.readinessProbe.successThreshold | default 2 }}
           timeoutSeconds: {{ .Values.web.readinessProbe.timeoutSeconds | default 3 }}
         resources:
-          {{- toYaml .Values.web.resources | nindent 10 }}
+          limits:
+            cpu: {{ .Values.web.resources.limits_cpu | default "100m" }}
+            memory: {{ .Values.web.resources.limits_memory | default "128Mi" }}
+          requests:
+            cpu: {{ .Values.web.resources.requests_cpu | default "200m" }}
+            memory: {{ .Values.web.resources.requests_memory | default "256Mi" }}
         volumeMounts:
         - mountPath: /app/storage/logs/json
           name: logs-app

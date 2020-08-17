@@ -76,7 +76,12 @@ spec:
           successThreshold: {{ .Values.worker.livenessProbe.successThreshold | default 1 }}
           timeoutSeconds: {{ .Values.worker.livenessProbe.timeoutSeconds | default 3 }}
         resources:
-          {{- toYaml .Values.worker.resources | nindent 10 }}
+          limits:
+            cpu: {{ .Values.worker.resources.limits_cpu | default "100m" }}
+            memory: {{ .Values.worker.resources.limits_memory | default "128Mi" }}
+          requests:
+            cpu: {{ .Values.worker.resources.requests_cpu | default "200m" }}
+            memory: {{ .Values.worker.resources.requests_memory | default "256Mi" }}
         volumeMounts:
         - mountPath: /app/storage/logs/json
           name: logs-app

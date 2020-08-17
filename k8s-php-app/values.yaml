@@ -19,13 +19,11 @@ web:
     enabled: true
     path: "/metrics"
 
-  resources:
-    limits:
-      cpu: 100m
-      memory: 128Mi
-    requests:
-      cpu: 100m
-      memory: 128Mi
+  resources: {}
+    # limits_cpu: 100m
+    # limits_memory: 128Mi
+    # requests_cpu: 200m
+    # requests_memory: 256Mi
 
   readinessProbe: {}
     # failureThreshold: 3
@@ -58,13 +56,11 @@ worker:
   enabled: false
   replicaCount: 2
 
-  resources:
-    limits:
-      cpu: 100m
-      memory: 128Mi
-    requests:
-      cpu: 100m
-      memory: 128Mi
+  resources: {}
+    # limits_cpu: 100m
+    # limits_memory: 128Mi
+    # requests_cpu: 200m
+    # requests_memory: 256Mi
 
   env: {}
   # - name: far
@@ -83,13 +79,11 @@ worker:
 cron:
   enabled: false
 
-  resources:
-    limits:
-      cpu: 100m
-      memory: 128Mi
-    requests:
-      cpu: 100m
-      memory: 128Mi
+  resources: {}
+    # limits_cpu: 100m
+    # limits_memory: 128Mi
+    # requests_cpu: 100m
+    # requests_memory: 128Mi
 
   env: {}
   # - name: far
