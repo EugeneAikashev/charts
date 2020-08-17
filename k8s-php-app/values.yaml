@@ -41,6 +41,8 @@ web:
     successThreshold: 1
     timeoutSeconds: 3
 
+  terminationGracePeriodSeconds: 30
+
   env:
   - name: zoo
     value: boo
@@ -73,6 +75,8 @@ worker:
     successThreshold: 1
     timeoutSeconds: 3
 
+  terminationGracePeriodSeconds: 30
+
 ### CRON ###
 cron:
   enabled: false
@@ -93,6 +97,8 @@ cron:
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 3
+
+  terminationGracePeriodSeconds: 30
 
 ### OTHER ###
 logs:

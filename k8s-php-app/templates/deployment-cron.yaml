@@ -83,6 +83,7 @@ spec:
           subPathExpr: $(NAMESPACE_NAME)_$(POD_NAME)
       imagePullSecrets:
       - name: docker-auth
+      terminationGracePeriodSeconds: {{ .Values.cron.terminationGracePeriodSeconds | default 30 }}
       volumes:
       - hostPath:
           path: {{ .Values.logs.app }}
