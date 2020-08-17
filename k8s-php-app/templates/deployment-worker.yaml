@@ -72,11 +72,11 @@ spec:
             - /bin/bash
             - -c
             - '! (supervisorctl status all | grep -qs FATAL)'
-          failureThreshold: 3
-          initialDelaySeconds: 10
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: {{ .Values.worker.probeTimeout }}
+          failureThreshold: {{ .Values.worker.livenessProbe.failureThreshold | default 3 }}
+          initialDelaySeconds: {{ .Values.worker.livenessProbe.initialDelaySeconds | default 10 }}
+          periodSeconds: {{ .Values.worker.livenessProbe.periodSeconds | default 10 }}
+          successThreshold: {{ .Values.worker.livenessProbe.successThreshold | default 1 }}
+          timeoutSeconds: {{ .Values.worker.livenessProbe.timeoutSeconds | default 3 }}
         resources:
           {{- toYaml .Values.worker.resources | nindent 10 }}
         volumeMounts:

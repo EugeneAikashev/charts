@@ -75,21 +75,21 @@ spec:
             path: {{ .Values.web.statusPath }}
             port: {{ .Values.web.appPort }}
             scheme: HTTP
-          failureThreshold: 60
-          initialDelaySeconds: 10
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: {{ .Values.web.probeTimeout }}
+          failureThreshold: {{ .Values.web.livenessProbe.failureThreshold | default 60 }}
+          initialDelaySeconds: {{ .Values.web.livenessProbe.initialDelaySeconds | default 10 }}
+          periodSeconds: {{ .Values.web.livenessProbe.periodSeconds | default 10 }}
+          successThreshold: {{ .Values.web.livenessProbe.successThreshold | default 1 }}
+          timeoutSeconds: {{ .Values.web.livenessProbe.timeoutSeconds | default 3 }}
         readinessProbe:
           httpGet:
             path: {{ .Values.web.statusPath }}
             port: {{ .Values.web.appPort }}
             scheme: HTTP
-          failureThreshold: 3
-          initialDelaySeconds: 10
-          periodSeconds: 5
-          successThreshold: 2
-          timeoutSeconds: {{ .Values.web.probeTimeout }}
+          failureThreshold: {{ .Values.web.readinessProbe.failureThreshold | default 3 }}
+          initialDelaySeconds: {{ .Values.web.readinessProbe.initialDelaySeconds | default 10 }}
+          periodSeconds: {{ .Values.web.readinessProbe.periodSeconds | default 5 }}
+          successThreshold: {{ .Values.web.readinessProbe.successThreshold | default 2 }}
+          timeoutSeconds: {{ .Values.web.readinessProbe.timeoutSeconds | default 3 }}
         resources:
           {{- toYaml .Values.web.resources | nindent 10 }}
         volumeMounts:

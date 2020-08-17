@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app.slates
+  namespace: api
+data:
+  SERVICE_KV_PATH: apps/api/api-slates

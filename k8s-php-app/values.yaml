@@ -13,7 +13,6 @@ web:
   replicaCount: 2
   appPort: 80
   servicePort: 80
-  probeTimeout: 3
   statusPath: "/status"
 
   metric:
@@ -27,6 +26,20 @@ web:
     requests:
       cpu: 100m
       memory: 128Mi
+
+  readinessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    successThreshold: 2
+    timeoutSeconds: 3
+
+  livenessProbe:
+    failureThreshold: 60
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 3
 
   env:
   - name: zoo
@@ -53,6 +66,13 @@ worker:
 
   env: {}
 
+  livenessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 3
+
 ### CRON ###
 cron:
   enabled: false
@@ -66,6 +86,13 @@ cron:
       memory: 128Mi
 
   env: {}
+
+  livenessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 3
 
 ### OTHER ###
 logs:
