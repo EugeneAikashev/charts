@@ -1,0 +1,8 @@
+apiVersion: v2
+name: k8s-php-app
+description: A Helm chart for K8S to deploy web, cron and worker
+type: application
+version: 0.1.0
+maintainers:
+- name: Eugene Aikashev
+  email: aikashev.yevhen@pdffiller.team

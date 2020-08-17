@@ -1,0 +1,16 @@
+{{- if and .Values.web.enabled (gt (.Values.web.replicaCount | int) 1) -}}
+kind: PodDisruptionBudget
+apiVersion: policy/v1beta1
+metadata:
+  labels:
+    app: {{ .Values.name }}
+    role: web
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+      role: web
+{{- end -}}

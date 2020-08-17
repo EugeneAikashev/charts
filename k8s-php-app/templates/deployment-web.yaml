@@ -1,0 +1,113 @@
+{{- if .Values.web.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.name }}
+    role: web
+spec:
+{{- if not .Values.web.autoscaling.enabled }}
+  replicas: {{ .Values.web.replicaCount }}
+{{- end }}
+  progressDeadlineSeconds: 600
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+      role: web
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: {{ .Values.name }}
+        role: web
+    spec:
+      containers:
+      - name: app
+        env:
+        - name: HOST_IP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.hostIP
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: NAMESPACE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: CONSUL_HTTP_ADDR
+          value: $(HOST_IP):8500
+        - name: SERVICE_ROLE
+          value: web
+        - name: SERVICE_NAME
+          value: {{ .Values.env }}-{{ .Values.namespace }}-{{ .Values.name }}
+        {{- with .Values.web.env }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        envFrom:
+        - configMapRef:
+            name: family.{{ .Values.namespace }}
+        - configMapRef:
+            name: app.{{ .Values.name }}
+        - secretRef:
+            name: app.{{ .Values.name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - name: http-main
+          containerPort: {{ .Values.web.appPort }}
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.web.statusPath }}
+            port: {{ .Values.web.appPort }}
+            scheme: HTTP
+          failureThreshold: 60
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: {{ .Values.web.probeTimeout }}
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.web.statusPath }}
+            port: {{ .Values.web.appPort }}
+            scheme: HTTP
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          successThreshold: 2
+          timeoutSeconds: {{ .Values.web.probeTimeout }}
+        resources:
+          {{- toYaml .Values.web.resources | nindent 10 }}
+        volumeMounts:
+        - mountPath: /app/storage/logs/json
+          name: logs-app
+          subPathExpr: $(NAMESPACE_NAME)_$(POD_NAME)
+        - mountPath: /var/log/nginx
+          name: logs-nginx
+          subPathExpr: $(NAMESPACE_NAME)_$(POD_NAME)
+      imagePullSecrets:
+      - name: docker-auth
+      volumes:
+      - hostPath:
+          path: {{ .Values.logs.app }}
+          type: ""
+        name: logs-app
+      - hostPath:
+          path: {{ .Values.logs.nginx }}
+          type: ""
+        name: logs-nginx
+{{- end -}}

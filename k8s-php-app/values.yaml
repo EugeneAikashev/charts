@@ -1,0 +1,78 @@
+name: slates
+namespace: api
+env: as-stage
+
+image:
+  repository: airslate/slates-api
+  pullPolicy: Always
+  tag: "v11.0.3"
+
+### WEB ###
+web:
+  enabled: true
+  replicaCount: 2
+  appPort: 80
+  servicePort: 80
+  probeTimeout: 3
+  statusPath: "/status"
+
+  metric:
+    enabled: true
+    path: "/metrics"
+
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+  env:
+  - name: zoo
+    value: boo
+
+  autoscaling:
+    enabled: false
+    minReplicas: 2
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 99
+
+### WORKER ###
+worker:
+  enabled: false
+  replicaCount: 2
+
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+  env: {}
+
+### CRON ###
+cron:
+  enabled: false
+
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+  env: {}
+
+### OTHER ###
+logs:
+  app: "/var/log/k8s/apps/app_json"
+  nginx: "/var/log/k8s/apps/nginx"
+
+serviceMesh:
+  mesh: true
+  gateway: infra-istio/main-ingress-gateway
+  hosts: api-slates.as-stage-k8s.int
