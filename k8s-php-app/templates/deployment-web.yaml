@@ -66,12 +66,12 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - name: http-main
-          containerPort: {{ .Values.web.appPort }}
+          containerPort: {{ .Values.web.appPort | default 80 }}
           protocol: TCP
         livenessProbe:
           httpGet:
-            path: {{ .Values.web.statusPath }}
-            port: {{ .Values.web.appPort }}
+            path: {{ .Values.web.statusPath | default "/status" | quote }}
+            port: {{ .Values.web.appPort | default 80 }}
             scheme: HTTP
           failureThreshold: {{ .Values.web.livenessProbe.failureThreshold | default 60 }}
           initialDelaySeconds: {{ .Values.web.livenessProbe.initialDelaySeconds | default 10 }}
@@ -80,8 +80,8 @@ spec:
           timeoutSeconds: {{ .Values.web.livenessProbe.timeoutSeconds | default 3 }}
         readinessProbe:
           httpGet:
-            path: {{ .Values.web.statusPath }}
-            port: {{ .Values.web.appPort }}
+            path: {{ .Values.web.statusPath | default "/status" | quote }}
+            port: {{ .Values.web.appPort | default 80 }}
             scheme: HTTP
           failureThreshold: {{ .Values.web.readinessProbe.failureThreshold | default 3 }}
           initialDelaySeconds: {{ .Values.web.readinessProbe.initialDelaySeconds | default 10 }}

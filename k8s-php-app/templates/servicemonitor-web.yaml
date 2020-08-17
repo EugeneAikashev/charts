@@ -10,7 +10,7 @@ metadata:
 spec:
   endpoints:
   - interval: 15s
-    path: {{ .Values.web.metric.path }}
+    path: {{ .Values.web.metric.path | default "/metrics" }}
     port: http
   jobLabel: app
   selector:
