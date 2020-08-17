@@ -8,9 +8,7 @@ metadata:
     app: {{ .Values.name }}
     role: web
 spec:
-{{- if not .Values.web.autoscaling.enabled }}
-  replicas: {{ .Values.web.replicaCount }}
-{{- end }}
+  replicas: {{ .Values.web.replicaCount | default 2 }}
   progressDeadlineSeconds: 600
   revisionHistoryLimit: 10
   selector:
