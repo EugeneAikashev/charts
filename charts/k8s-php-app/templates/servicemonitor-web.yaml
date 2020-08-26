@@ -1,0 +1,19 @@
+{{- if and .Values.web.enabled .Values.web.metric.enabled -}}
+kind: ServiceMonitor
+apiVersion: monitoring.coreos.com/v1
+metadata:
+  labels:
+    app: {{ .Values.name }}
+    role: web
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  endpoints:
+  - interval: 15s
+    path: {{ .Values.web.metric.path | default "/metrics" }}
+    port: http
+  jobLabel: app
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+{{- end -}}

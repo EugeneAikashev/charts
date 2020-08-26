@@ -1,0 +1,109 @@
+name: slates
+namespace: api
+env: as-stage
+
+image:
+  repository: airslate/slates-api
+  pullPolicy: Always
+  tag: "v11.0.3"
+
+### WEB ###
+web:
+  enabled: true
+  replicaCount: 2
+  appPort: 80
+  servicePort: 80
+  statusPath: "/status"
+
+  metric:
+    enabled: true
+    path: "/metrics"
+
+  resources: {}
+    # limits_cpu: 100m
+    # limits_memory: 128Mi
+    # requests_cpu: 200m
+    # requests_memory: 256Mi
+
+  readinessProbe: {}
+    # failureThreshold: 3
+    # initialDelaySeconds: 10
+    # periodSeconds: 5
+    # successThreshold: 2
+    # timeoutSeconds: 3
+
+  livenessProbe: {}
+    # failureThreshold: 60
+    # initialDelaySeconds: 10
+    # periodSeconds: 10
+    # successThreshold: 1
+    # timeoutSeconds: 3
+
+  terminationGracePeriodSeconds: 30
+
+  env:
+  - name: far
+    value: bar
+
+  autoscaling:
+    enabled: false
+    minReplicas: 2
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 99
+
+### WORKER ###
+worker:
+  enabled: false
+  replicaCount: 2
+
+  resources: {}
+    # limits_cpu: 100m
+    # limits_memory: 128Mi
+    # requests_cpu: 200m
+    # requests_memory: 256Mi
+
+  env: {}
+  # - name: far
+  #   value: bar
+
+  livenessProbe: {}
+    # failureThreshold: 3
+    # initialDelaySeconds: 10
+    # periodSeconds: 10
+    # successThreshold: 1
+    # timeoutSeconds: 3
+
+  terminationGracePeriodSeconds: 30
+
+### CRON ###
+cron:
+  enabled: false
+
+  resources: {}
+    # limits_cpu: 100m
+    # limits_memory: 128Mi
+    # requests_cpu: 100m
+    # requests_memory: 128Mi
+
+  env: {}
+  # - name: far
+  #   value: bar
+
+  livenessProbe: {}
+    # failureThreshold: 3
+    # initialDelaySeconds: 10
+    # periodSeconds: 10
+    # successThreshold: 1
+    # timeoutSeconds: 3
+
+  terminationGracePeriodSeconds: 30
+
+### OTHER ###
+logs:
+  app: "/var/log/k8s/apps/app_json"
+  nginx: "/var/log/k8s/apps/nginx"
+
+serviceMesh:
+  mesh: true
+  gateway: infra-istio/main-ingress-gateway
+  hosts: api-slates.as-stage-k8s.int
