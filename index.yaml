@@ -3,12 +3,12 @@ entries:
   test:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2020-08-26T11:21:10.095003995+03:00"
+    created: "2020-08-26T11:43:43.245527116+03:00"
     description: A Helm chart for Kubernetes
     digest: e197828e367220878d1fbb79148477f9bd5c1820595915a160786887bea8a813
     name: test
     type: application
     urls:
-    - https://github.com/EugeneAikashev/charts/test-0.1.0.tgz
+    - https://eugeneaikashev.github.io/charts/test-0.1.0.tgz
     version: 0.1.0
-generated: "2020-08-26T11:21:10.068908976+03:00"
+generated: "2020-08-26T11:43:43.244799252+03:00"
