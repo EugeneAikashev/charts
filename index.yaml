@@ -1,5 +1,18 @@
 apiVersion: v1
 entries:
+  k8s-php-app:
+  - apiVersion: v2
+    created: "2020-08-26T14:46:43.119266132Z"
+    description: A Helm chart for K8S to deploy web, cron and worker
+    digest: e9a74abf123524b41e018b4c585de8168af294a5f3d08316b6b6405ae1ecce6e
+    maintainers:
+    - email: aikashev.yevhen@pdffiller.team
+      name: Eugene Aikashev
+    name: k8s-php-app
+    type: application
+    urls:
+    - https://github.com/EugeneAikashev/helm-charts/releases/download/k8s-php-app-0.1.0/k8s-php-app-0.1.0.tgz
+    version: 0.1.0
   test:
   - apiVersion: v2
     appVersion: 1.16.0
