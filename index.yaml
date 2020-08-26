@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  test4:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2020-08-26T13:43:21.735178357Z"
+    description: A Helm chart for Kubernetes
+    digest: a5b2a9d21b9fbeced56166bafd624908e8cb4782bf041065a441f7ae2ea371f2
+    name: test4
+    type: application
+    urls:
+    - https://github.com/EugeneAikashev/helm-charts/releases/download/test4-0.1.0/test4-0.1.0.tgz
+    version: 0.1.0
+generated: "2020-08-26T13:43:21.629623608Z"
