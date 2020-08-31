@@ -24,6 +24,16 @@ entries:
     urls:
     - https://github.com/EugeneAikashev/helm-charts/releases/download/test-0.1.2/test-0.1.2.tgz
     version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2020-08-26T13:54:39.424661166Z"
+    description: A Helm chart for Kubernetes
+    digest: 568d1b0b01eda91d528fd74ce977787de533327cb9a80774dce199e401608c5b
+    name: test
+    type: application
+    urls:
+    - https://github.com/EugeneAikashev/helm-charts/releases/download/test-0.1.2/test-0.1.1.tgz
+    version: 0.1.1
   test2:
   - apiVersion: v2
     appVersion: 1.2.0
